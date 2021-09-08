@@ -1,6 +1,8 @@
 "use strict"
 
 const semaforo = document.getElementById("semaforo")
+const automatico = document.getElementById("automatico")
+let idInterval
 
 const semaforoDesligado = () => semaforo.src.includes("desligado")
  
@@ -21,7 +23,6 @@ function semaforoAmarelo(){
 
 function semaforoVerde(){
     semaforo.src = "img/verde.png"
-
 }
 
 function trocarSemaforo(){
@@ -37,23 +38,46 @@ function trocarSemaforo(){
 }
 
 function semaforoAutomatico(){
-    const automatico = document.getElementById("automatico")
-       setInterval(trocarSemaforo, 750)
-       automatico.disabled = true
+    if(automatico.textContent == "Automático"){
+      idInterval = setInterval(trocarSemaforo, 750)
+       automatico.textContent = "Parar"
+} else {
+    clearInterval(idInterval)
+    automatico.textContent = "Automático"
+}
 }
 
 function desligarSemaforo(){
     semaforo.src = "img/desligado.png"
 }
 
+
+function semaforoVermelhoResetar() {
+    clearInterval(idInterval)
+    automatico.textContent == "Automático"
+    semaforoVermelho()
+}
+
+function semaforoAmareloResetar() {
+    clearInterval(idInterval)
+    automatico.textContent == "Automático"
+    semaforoAmarelo()
+}
+
+function semaforoVerdeResetar() {
+    clearInterval(idInterval)
+    automatico.textContent == "Automático"
+    semaforoVerde()
+}
+
 document.getElementById("vermelho")
-.addEventListener("click", semaforoVermelho)
+.addEventListener("click", semaforoVermelhoResetar)
 
 document.getElementById("amarelo")
-.addEventListener("click", semaforoAmarelo)
+.addEventListener("click", semaforoAmareloResetar)
 
 document.getElementById("verde")
-.addEventListener("click", semaforoVerde)
+.addEventListener("click", semaforoVerdeResetar)
 
 document.getElementById("automatico")
 .addEventListener("click", semaforoAutomatico)
